@@ -6,6 +6,5 @@ target 'article' do
   use_frameworks!
 
   # Pods for article
-pod 'Kingfisher'
-pod 'Alamofire'
+  pod 'Kingfisher'
 end
