@@ -31,9 +31,6 @@ class AddArticleViewController: UIViewController {
         uploadImageView.isUserInteractionEnabled = true
         uploadImageView.addGestureRecognizer(imageTapGesture)
         
-        NotificationCenter.default.addObserver(self,selector: #selector(keyboardWillShowForResizing), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideForResizing), name: Notification.Name.UIKeyboardWillHide, object: nil)
-        
     }
 
     @IBAction func saveArticle(_ sender: Any) {
@@ -44,20 +41,6 @@ class AddArticleViewController: UIViewController {
         }
         
         navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func keyboardWillShowForResizing(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-            let window = self.view.window?.frame {
-            self.view.frame = CGRect(x: self.view.frame.origin.x, y: self.view.frame.origin.y, width: self.view.frame.width, height: window.origin.y + window.height - keyboardSize.height)
-        }
-    }
-    
-    @objc func keyboardWillHideForResizing(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            let viewHeight = self.view.frame.height
-            self.view.frame = CGRect(x: self.view.frame.origin.x, y: self.view.frame.origin.y, width: self.view.frame.width, height: viewHeight + keyboardSize.height)
-        }
     }
     
 }
