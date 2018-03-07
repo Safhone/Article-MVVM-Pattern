@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import SDWebImage
 
 class AddArticleViewController: UIViewController {
 
@@ -16,8 +17,16 @@ class AddArticleViewController: UIViewController {
     @IBOutlet weak var uploadImageView: UIImageView!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descTextView: UITextView!
+    @IBOutlet weak var barNavigationItem: UINavigationItem!
     
     let imagePicker = UIImagePickerController()
+    
+    var newsID         : Int?
+    var newsTitle      : String?
+    var newsImage      : String?
+    var newsDescription: String?
+    var isUpdate: Bool = false
+    var isSave: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,13 +40,44 @@ class AddArticleViewController: UIViewController {
         uploadImageView.isUserInteractionEnabled = true
         uploadImageView.addGestureRecognizer(imageTapGesture)
         
+        if isUpdate {
+            titleTextField.text = newsTitle!
+            descTextView.text = newsDescription!
+            if let imgURL = URL(string: newsImage!) {
+                uploadImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "no-image"))
+            }
+        }
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        if isUpdate {
+            self.navigationController?.navigationBar.topItem?.title = "Update"
+            self.barNavigationItem.title = "Update"
+            isSave = false
+            return
+        } else {
+            self.navigationController?.navigationBar.topItem?.title = "Add"
+            self.barNavigationItem.title = "Add"
+            isSave = true
+        }
     }
 
     @IBAction func saveArticle(_ sender: Any) {
         let image = UIImageJPEGRepresentation(self.uploadImageView.image!, 1)
         
-        articleAddViewModel?.uploadArticle(image: image!) {
-            self.articleAddViewModel?.saveArticle(articleViewModel: ArticleViewModel(title: self.titleTextField.text!, description: self.descTextView.text, created_date: "", image: (self.articleAddViewModel?.imageName)!))
+        if isSave! {
+            print("is save")
+            articleAddViewModel?.uploadArticle(image: image!) {
+                self.articleAddViewModel?.saveArticle(articleViewModel: ArticleViewModel(id: 0, title: self.titleTextField.text!, description: self.descTextView.text, created_date: "", image: (self.articleAddViewModel?.imageName)!))
+            }
+        } else {
+            print("is update")
+            articleAddViewModel?.uploadArticle(image: image!) {
+                self.articleAddViewModel?.updateArticle(articleViewModel: ArticleViewModel(id: 0, title: self.titleTextField.text!, description: self.descTextView.text, created_date: "", image: (self.articleAddViewModel?.imageName)!), id: self.newsID!)
+            }
+            
         }
         
         navigationController?.popViewController(animated: true)

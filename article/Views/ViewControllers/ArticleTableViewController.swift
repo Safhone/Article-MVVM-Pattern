@@ -31,7 +31,7 @@ class ArticleTableViewController: UITableViewController {
         tableView.separatorInset                  = UIEdgeInsets.zero
         tableView.layoutMargins                   = UIEdgeInsets.zero
         tableView.tableFooterView                 = UIView()
-        tableView.estimatedRowHeight              = 110
+        tableView.estimatedRowHeight              = 111
         tableView.rowHeight                       = UITableViewAutomaticDimension
 
         fetchData(atPage: increasePage, withLimitation: 15)
@@ -51,6 +51,11 @@ class ArticleTableViewController: UITableViewController {
         tableView.addSubview(refreshControl!)
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.title = "Articles"
+    }
 
     @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
         fetchData(atPage: 1, withLimitation: 15)
@@ -66,13 +71,16 @@ class ArticleTableViewController: UITableViewController {
                 self.articleViewModel = []
                 self.articleViewModel = self.articleListViewModel?.articleViewModel
             }
-
+            
             self.loadingIndicatorView.stopAnimating()
             self.paginationIndicatorView.stopAnimating()
             self.refreshControl?.endRefreshing()
-
-            self.tableView.reloadData()
-            self.tableView.setContentOffset(.init(x: 0, y: -116), animated: true)
+       
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.tableView.setContentOffset(.init(x: 0, y: -116), animated: true)
+            }
+            
         }
         
     }
@@ -116,7 +124,36 @@ class ArticleTableViewController: UITableViewController {
         self.navigationController?.pushViewController(newsStoryBoard, animated: true)
         
     }
-
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, index) in
+            let alert = UIAlertController(title: "Are you sure to delete?", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (action) in
+                DispatchQueue.main.async {
+                    self.articleListViewModel?.deleteArticle(id: self.articleViewModel![indexPath.row].id!)
+                    self.articleViewModel?.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                }
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+        let edit = UITableViewRowAction(style: .normal, title: "Edit") { (action, index) in
+            if let addViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addStoryBoardID") as? AddArticleViewController {
+                addViewController.newsID = self.articleViewModel![indexPath.row].id!
+                addViewController.newsTitle = self.articleViewModel![indexPath.row].title?.trimmingCharacters(in: .whitespaces) == "" || self.articleViewModel![indexPath.row].title?.trimmingCharacters(in: .whitespaces) == nil ? "Untitle" : self.articleViewModel![indexPath.row].title!
+                addViewController.newsDescription = self.articleViewModel![indexPath.row].description!
+                addViewController.newsImage = self.articleViewModel![indexPath.row].image
+                addViewController.isUpdate = true
+                if let navigator = self.navigationController {
+                    navigator.pushViewController(addViewController, animated: true)
+                }
+            }
+        }
+        return [delete, edit]
+    }
+    
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
         let bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height
@@ -138,6 +175,5 @@ class ArticleTableViewController: UITableViewController {
         }
         
     }
-
+    
 }
-

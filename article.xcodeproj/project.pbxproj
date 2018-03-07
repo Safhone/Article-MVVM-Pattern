@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00789934D2707BB3FC11B6C1 /* Pods_article.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 955EF6DC81FA17B635E73FB1 /* Pods_article.framework */; };
-		39BEE5A9204E4CDA007B37D8 /* DataAcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE5A8204E4CDA007B37D8 /* DataAcess.swift */; };
+		39BEE5A9204E4CDA007B37D8 /* DataAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE5A8204E4CDA007B37D8 /* DataAccess.swift */; };
 		39BEE5AB204E4EEA007B37D8 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE5AA204E4EEA007B37D8 /* Constant.swift */; };
 		7E0256AC204D48320061069D /* FormatLongDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0256AB204D48320061069D /* FormatLongDate.swift */; };
 		7E2E11F7204CE5BE009926BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E11F6204CE5BE009926BF /* AppDelegate.swift */; };
@@ -25,7 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		39BEE5A8204E4CDA007B37D8 /* DataAcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAcess.swift; sourceTree = "<group>"; };
+		39BEE5A8204E4CDA007B37D8 /* DataAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAccess.swift; sourceTree = "<group>"; };
 		39BEE5AA204E4EEA007B37D8 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		63D8B14336B4D17FD2497A9D /* Pods-article.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-article.release.xcconfig"; path = "Pods/Target Support Files/Pods-article/Pods-article.release.xcconfig"; sourceTree = "<group>"; };
 		7E0256AB204D48320061069D /* FormatLongDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatLongDate.swift; sourceTree = "<group>"; };
@@ -73,7 +73,7 @@
 			children = (
 				7E0256AA204D48180061069D /* Utilities */,
 				39BEE5A7204E49CE007B37D8 /* Lib */,
-				39BEE5A8204E4CDA007B37D8 /* DataAcess.swift */,
+				39BEE5A8204E4CDA007B37D8 /* DataAccess.swift */,
 				39BEE5AA204E4EEA007B37D8 /* Constant.swift */,
 			);
 			path = Helper;
@@ -329,7 +329,7 @@
 				7E6CCF66204E3BE6001FBAB8 /* Response.swift in Sources */,
 				7E2E11F9204CE5BE009926BF /* ArticleTableViewController.swift in Sources */,
 				7E2E121E204D2056009926BF /* NewsViewController.swift in Sources */,
-				39BEE5A9204E4CDA007B37D8 /* DataAcess.swift in Sources */,
+				39BEE5A9204E4CDA007B37D8 /* DataAccess.swift in Sources */,
 				7E2E120C204CE9ED009926BF /* ArticleTableViewCell.swift in Sources */,
 				39BEE5AB204E4EEA007B37D8 /* Constant.swift in Sources */,
 				7E0256AC204D48320061069D /* FormatLongDate.swift in Sources */,

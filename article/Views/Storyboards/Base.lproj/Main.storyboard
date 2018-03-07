@@ -196,7 +196,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no image" translatesAutoresizingMaskIntoConstraints="NO" id="F1b-Oe-ChJ">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F1b-Oe-ChJ">
                                 <rect key="frame" x="16" y="101" width="343" height="162"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="F1b-Oe-ChJ" secondAttribute="height" multiplier="343:162" id="A4e-Zw-P2F"/>
@@ -267,6 +267,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="barNavigationItem" destination="cOW-Ds-IOq" id="8qg-gt-m4V"/>
                         <outlet property="descTextView" destination="zlP-N2-Mrc" id="OGb-lw-aUy"/>
                         <outlet property="titleTextField" destination="Rqb-bY-eX2" id="k4a-UO-ldQ"/>
                         <outlet property="uploadImageView" destination="F1b-Oe-ChJ" id="MHr-Kt-2yY"/>
@@ -277,7 +278,4 @@
             <point key="canvasLocation" x="980" y="-864"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="no image" width="16" height="16"/>
-    </resources>
 </document>
