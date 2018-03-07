@@ -18,12 +18,13 @@ class DataAccess {
         case POST = "POST"
     }
 
-    private func request(url: URL, method: Methods) -> URLRequest {
+    private func request(url: URL, method: Methods, body: Data?) -> URLRequest {
         var request = URLRequest(url: url)
         if Methods.GET.rawValue == method.rawValue {
             request.httpMethod = "GET"
         } else if Methods.POST.rawValue == method.rawValue {
             request.httpMethod = "POST"
+            request.httpBody = body
         }
         
         request.addValue("application/json",                           forHTTPHeaderField: "Content-Type")
@@ -36,7 +37,7 @@ class DataAccess {
     func fetchData(urlApi: String, atPage: Int, withLimitation: Int, completion: @escaping ([Article]) -> ()) {
     
         let url = URL(string: "\(urlApi)?page=\(atPage)&limit=\(withLimitation)")!
-        URLSession.shared.dataTask(with: request(url: url, method: .GET)) { data, response, error in
+        URLSession.shared.dataTask(with: request(url: url, method: .GET, body: nil)) { data, response, error in
             if let data = data {
                 do {
                     let response = try JSONDecoder().decode(Response<Article>.self, from: data)
@@ -55,8 +56,7 @@ class DataAccess {
     func saveData(urlApi: String, article: Article) {
         let articleData = try? JSONEncoder().encode(article)
         
-        var request = self.request(url: URL(string: urlApi)!, method: .POST)
-        request.httpBody = articleData
+        var request = self.request(url: URL(string: urlApi)!, method: .POST, body: articleData)
         
         #if DEBUG
             print("jsonData: ", String(data: request.httpBody!, encoding: .utf8)!)
@@ -74,20 +74,12 @@ class DataAccess {
     }
     
     func uploadImage(urlApi: String, image: Data, completion: @escaping (String) -> ()) {
-        
-        let boundary = "Boundary-\(UUID().uuidString)"
-        
-        var request = URLRequest(url: URL(string: urlApi)!)
-        request.addValue("application/json",                           forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json",                           forHTTPHeaderField: "Accept")
-        request.addValue("Basic QU1TQVBJQURNSU46QU1TQVBJUEBTU1dPUkQ=", forHTTPHeaderField: "Authorization")
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "POST"
-        
+
         var formData = Data()
-        
         let imageData = image
         let mimeType = "image/jpeg"
+        let boundary = "Boundary-\(UUID().uuidString)"
+        
         formData.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
         formData.append("Content-Disposition: form-data; name=\"FILE\"; filename=\"Image.png\"\r\n".data(using: .utf8)!)
         formData.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
@@ -95,7 +87,8 @@ class DataAccess {
         formData.append("\r\n".data(using: .utf8)!)
         formData.append("--\(boundary)--\r\n".data(using: .utf8)!)
         
-        request.httpBody = formData
+        var request = self.request(url: URL(string: urlApi)!, method: .POST, body: formData)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         URLSession.shared.uploadTask(with: request, from: formData) { data, response, error in
             if error == nil {
