@@ -26,10 +26,10 @@ class Article: Codable {
     }
     
     init(articleViewModel: ArticleViewModel) {
-        self.title = articleViewModel.title
-        self.description = articleViewModel.description
+        self.title        = articleViewModel.title
+        self.description  = articleViewModel.description
         self.created_date = articleViewModel.created_date
-        self.image = articleViewModel.image
+        self.image        = articleViewModel.image
     }
 
 }
