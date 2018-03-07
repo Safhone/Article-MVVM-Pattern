@@ -34,16 +34,16 @@ class DataAccess {
         return request
     }
     
-    func fetchData(urlApi: String, atPage: Int, withLimitation: Int, completion: @escaping ([Article]) -> ()) {
+    func fetchData<T: Codable>(urlApi: String, atPage: Int, withLimitation: Int, type: T.Type ,completion: @escaping ([T]) -> ()) {
     
         let url = URL(string: "\(urlApi)?page=\(atPage)&limit=\(withLimitation)")!
         URLSession.shared.dataTask(with: request(url: url, method: .GET, body: nil)) { data, response, error in
             if let data = data {
                 do {
-                    let response = try JSONDecoder().decode(Response<Article>.self, from: data)
-                    let article = response.DATA
+                    let response = try JSONDecoder().decode(Response<T>.self, from: data)
+                    let data = response.DATA
                     DispatchQueue.main.async {
-                        completion(article)
+                        completion(data)
                     }
                 } catch let error as NSError {
                     print(error.localizedDescription)
@@ -53,10 +53,10 @@ class DataAccess {
     }
     
     
-    func saveData(urlApi: String, article: Article) {
-        let articleData = try? JSONEncoder().encode(article)
+    func saveData<T: Codable>(urlApi: String, object: T) {
+        let data = try? JSONEncoder().encode(object)
         
-        var request = self.request(url: URL(string: urlApi)!, method: .POST, body: articleData)
+        var request = self.request(url: URL(string: urlApi)!, method: .POST, body: data)
         
         #if DEBUG
             print("jsonData: ", String(data: request.httpBody!, encoding: .utf8)!)
@@ -74,6 +74,12 @@ class DataAccess {
     }
     
     func uploadImage(urlApi: String, image: Data, completion: @escaping (String) -> ()) {
+        
+        struct Upload: Codable {
+            var CODE: String?
+            var MESSAGE: String?
+            var DATA: String?
+        }
 
         var formData = Data()
         let imageData = image
@@ -97,11 +103,14 @@ class DataAccess {
                     print("Upload Success")
                 #endif
                 
-                if let json = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:Any]{
-                    let imageUrl = json["DATA"] as! String
+                do {
+                    let response = try JSONDecoder().decode(Upload.self, from: data!)
+                    let data = response.DATA
                     DispatchQueue.main.async {
-                        completion(imageUrl)
+                        completion(data!)
                     }
+                } catch let error as NSError {
+                    print(error.localizedDescription)
                 }
             }
         }.resume()
