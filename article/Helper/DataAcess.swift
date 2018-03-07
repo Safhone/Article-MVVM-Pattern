@@ -20,11 +20,12 @@ class DataAccess {
 
     private func request(url: URL, method: Methods, body: Data?) -> URLRequest {
         var request = URLRequest(url: url)
+        
         if Methods.GET.rawValue == method.rawValue {
             request.httpMethod = "GET"
         } else if Methods.POST.rawValue == method.rawValue {
             request.httpMethod = "POST"
-            request.httpBody = body
+            request.httpBody   = body
         }
         
         request.addValue("application/json",                           forHTTPHeaderField: "Content-Type")
@@ -51,7 +52,6 @@ class DataAccess {
             }
         }.resume()
     }
-    
     
     func saveData<T: Codable>(urlApi: String, object: T) {
         let data = try? JSONEncoder().encode(object)
@@ -80,11 +80,11 @@ class DataAccess {
             var MESSAGE: String?
             var DATA: String?
         }
-
-        var formData = Data()
+        
         let imageData = image
         let mimeType = "image/jpeg"
         let boundary = "Boundary-\(UUID().uuidString)"
+        var formData = Data()
         
         formData.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
         formData.append("Content-Disposition: form-data; name=\"FILE\"; filename=\"Image.png\"\r\n".data(using: .utf8)!)
@@ -113,6 +113,7 @@ class DataAccess {
                     print(error.localizedDescription)
                 }
             }
+            
         }.resume()
         
     }

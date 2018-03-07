@@ -43,6 +43,7 @@ class ArticleAddViewModel {
 
 class ArticleViewModel {
     
+    var id          : Int?
     var title       : String?
     var description : String?
     var created_date: String?
@@ -56,6 +57,7 @@ class ArticleViewModel {
     }
     
     init(article: Article) {
+        self.id           = article.id
         self.title        = article.title
         self.description  = article.description
         self.created_date = article.created_date

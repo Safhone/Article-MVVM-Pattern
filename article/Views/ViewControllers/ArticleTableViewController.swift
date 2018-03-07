@@ -77,10 +77,6 @@ class ArticleTableViewController: UITableViewController {
         
     }
     
-    @IBAction func saveArticle(_ sender: Any) {
-        
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if articleViewModel != nil {
             if (articleViewModel?.count)! > 0 {
