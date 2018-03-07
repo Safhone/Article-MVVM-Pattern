@@ -1,12 +1,14 @@
 PODS:
-  - Kingfisher (4.6.3)
+  - SDWebImage (4.3.2):
+    - SDWebImage/Core (= 4.3.2)
+  - SDWebImage/Core (4.3.2)
 
 DEPENDENCIES:
-  - Kingfisher
+  - SDWebImage
 
 SPEC CHECKSUMS:
-  Kingfisher: 98e6d5b5e807645743e8ed5ececd25d688d38452
+  SDWebImage: 29bd3c0bc1f01e5eb59720847c64ad4c4ca1af5d
 
-PODFILE CHECKSUM: e4ddd3f5a8f317b31607e294c0baaca29347c9a0
+PODFILE CHECKSUM: 5d02aff970c34542a7c4b3425a8297048cf3f209
 
 COCOAPODS: 1.4.0

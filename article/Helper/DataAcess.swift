@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import UIKit
+
 
 class DataAccess {
     static let manager = DataAccess()
@@ -22,9 +22,9 @@ class DataAccess {
         var request = URLRequest(url: url)
         
         if Methods.GET.rawValue == method.rawValue {
-            request.httpMethod = "GET"
+            request.httpMethod = method.rawValue
         } else if Methods.POST.rawValue == method.rawValue {
-            request.httpMethod = "POST"
+            request.httpMethod = method.rawValue
             request.httpBody   = body
         }
         
@@ -35,7 +35,7 @@ class DataAccess {
         return request
     }
     
-    func fetchData<T: Codable>(urlApi: String, atPage: Int, withLimitation: Int, type: T.Type ,completion: @escaping ([T]) -> ()) {
+    func fetchData<T: Codable>(urlApi: String, atPage: Int, withLimitation: Int, type: T.Type, completion: @escaping ([T]) -> ()) {
     
         let url = URL(string: "\(urlApi)?page=\(atPage)&limit=\(withLimitation)")!
         URLSession.shared.dataTask(with: request(url: url, method: .GET, body: nil)) { data, response, error in

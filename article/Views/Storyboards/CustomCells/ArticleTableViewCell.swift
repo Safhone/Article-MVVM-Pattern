@@ -28,8 +28,9 @@ class ArticleTableViewCell: UITableViewCell {
     func configureCell(articleViewModel: ArticleViewModel) {
         articleTitleLabel.text = articleViewModel.title
         articleDateLabel.text = articleViewModel.created_date?.formatDate(getTime: true)
+        
         if let imgURL = URL(string: articleViewModel.image!) {
-            articleImageView.kf.setImage(with: imgURL, placeholder: #imageLiteral(resourceName: "no-image"), options: nil, progressBlock: nil, completionHandler: nil)
+            articleImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "no-image"))
         }
         
     }

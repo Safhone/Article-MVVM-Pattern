@@ -9,10 +9,11 @@
 import Foundation
 import UIKit
 
+typealias completionHandler = () -> ()
+
 class ArticleListViewModel {
     
     private (set) var articleViewModel: [ArticleViewModel] = [ArticleViewModel]()
-    typealias completionHandler = () -> ()
     
     func getArticle(atPage: Int, withLimitation: Int, completion: @escaping completionHandler) {
         DataAccess.manager.fetchData(urlApi: ShareManager.APIKEY.RESPONSE_ARICLE, atPage: atPage, withLimitation: withLimitation, type: Article.self) { articles in
@@ -24,12 +25,11 @@ class ArticleListViewModel {
 }
 
 class ArticleAddViewModel {
+    
     private (set) var imageName: String = ""
-    typealias completionHandler = () -> ()
     
     func saveArticle(articleViewModel: ArticleViewModel) {
-        let article = Article(articleViewModel: articleViewModel)
-        DataAccess.manager.saveData(urlApi: ShareManager.APIKEY.REQUEST_ARICLE, object: article)
+        DataAccess.manager.saveData(urlApi: ShareManager.APIKEY.REQUEST_ARICLE, object: Article(articleViewModel: articleViewModel))
     }
     
     func uploadArticle(image: Data, completion: @escaping completionHandler) {
@@ -43,7 +43,6 @@ class ArticleAddViewModel {
 
 class ArticleViewModel {
     
-    var id          : Int?
     var title       : String?
     var description : String?
     var created_date: String?
@@ -57,7 +56,6 @@ class ArticleViewModel {
     }
     
     init(article: Article) {
-        self.id           = article.id
         self.title        = article.title
         self.description  = article.description
         self.created_date = article.created_date

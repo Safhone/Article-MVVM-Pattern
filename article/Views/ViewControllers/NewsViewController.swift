@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class NewsViewController: UIViewController {
 
@@ -27,7 +28,7 @@ class NewsViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         if let imgURL = URL(string: newsImage!) {
-            articleImageView.kf.setImage(with: imgURL, placeholder: #imageLiteral(resourceName: "no-image"), options: nil, progressBlock: nil, completionHandler: nil)
+            articleImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "no-image"))
         }
         
         titleLabel.text   = newsTitle
