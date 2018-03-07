@@ -16,18 +16,15 @@ class ArticleTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func configureCell(articleViewModel: ArticleViewModel) {
         articleTitleLabel.text = articleViewModel.title
-        articleDateLabel.text = articleViewModel.created_date?.formatDate(getTime: true)
+        articleDateLabel.text = articleViewModel.created_date
         
         if let imgURL = URL(string: articleViewModel.image!) {
             articleImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "no-image"))

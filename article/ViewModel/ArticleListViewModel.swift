@@ -17,7 +17,10 @@ class ArticleListViewModel {
     
     func getArticle(atPage: Int, withLimitation: Int, completion: @escaping completionHandler) {
         DataAccess.manager.fetchData(urlApi: ShareManager.APIKEY.RESPONSE_ARICLE, atPage: atPage, withLimitation: withLimitation, type: Article.self) { articles in
-            self.articleViewModel = articles.map(ArticleViewModel.init)
+            //self.articleViewModel = articles.map(ArticleViewModel.init)
+            for article in articles {
+                self.articleViewModel.append(ArticleViewModel(title: article.title!, description: article.description!, created_date: (article.created_date?.formatDate(getTime: true))!, image: article.image!))
+            }
             completion()
         }
     }

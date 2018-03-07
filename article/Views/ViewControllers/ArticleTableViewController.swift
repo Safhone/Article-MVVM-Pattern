@@ -111,7 +111,7 @@ class ArticleTableViewController: UITableViewController {
         newsStoryBoard.newsImage       = self.articleViewModel![indexPath.row].image
         newsStoryBoard.newsTitle       = self.articleViewModel![indexPath.row].title
         newsStoryBoard.newsDescription = self.articleViewModel![indexPath.row].description
-        newsStoryBoard.newsDate        = self.articleViewModel![indexPath.row].created_date?.formatDate(getTime: true)
+        newsStoryBoard.newsDate        = self.articleViewModel![indexPath.row].created_date
         
         self.navigationController?.pushViewController(newsStoryBoard, animated: true)
         
