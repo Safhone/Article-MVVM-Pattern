@@ -35,7 +35,9 @@ class AddArticleViewController: UIViewController {
 
     @IBAction func saveArticle(_ sender: Any) {
         let image = UIImageJPEGRepresentation(self.uploadImageView.image!, 1)
-        articleAddViewModel?.saveArticle(articleViewModel: ArticleViewModel(title: titleTextField.text!, description: descTextView.text, created_date: "", image: ""), image: image!)
+        articleAddViewModel?.uploadArticle(image: image!) {
+            self.articleAddViewModel?.saveArticle(articleViewModel: ArticleViewModel(title: self.titleTextField.text!, description: self.descTextView.text, created_date: "", image: (self.articleAddViewModel?.imageName)!))
+        }
         navigationController?.popViewController(animated: true)
     }
     

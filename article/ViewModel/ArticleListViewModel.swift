@@ -15,7 +15,7 @@ class ArticleListViewModel {
     typealias completionHandler = () -> ()
     
     func getArticle(atPage: Int, withLimitation: Int, completion: @escaping completionHandler) {
-        DataAccess.manager.fetchData(urlApi: ShareManager.APIKEY.REQUEST_ARICLE, atPage: atPage, withLimitation: withLimitation) { articles in
+        DataAccess.manager.fetchData(urlApi: ShareManager.APIKEY.RESPONSE_ARICLE, atPage: atPage, withLimitation: withLimitation) { articles in
             self.articleViewModel = articles.map(ArticleViewModel.init)
             completion()
         }
@@ -24,11 +24,19 @@ class ArticleListViewModel {
 }
 
 class ArticleAddViewModel {
+    private (set) var imageName: String = ""
+    typealias completionHandler = () -> ()
     
-    func saveArticle(articleViewModel: ArticleViewModel, image: Data) {
+    func saveArticle(articleViewModel: ArticleViewModel) {
         let article = Article(articleViewModel: articleViewModel)
         DataAccess.manager.saveData(urlApi: ShareManager.APIKEY.REQUEST_ARICLE, article: article)
-        //DataAccess.manager.saveData(urlApi: ShareManager.APIKEY.REQUEST_ARICLE, article: article, data: image)
+    }
+    
+    func uploadArticle(image: Data, completion: @escaping completionHandler) {
+        DataAccess.manager.uploadImage(urlApi: ShareManager.APIKEY.UPLOAD_IMAGE, image: image) { imageName in
+            self.imageName = imageName
+            completion()
+        }
     }
     
 }

@@ -2,7 +2,7 @@
 //  DataAcess.swift
 //  article
 //
-//  Created by Vansa Pha on 3/6/18.
+//  Created by Safhone on 3/6/18.
 //  Copyright © 2018 Safhone. All rights reserved.
 //
 
@@ -77,44 +77,46 @@ class DataAccess {
         
     }
     
-//    var headers = [
-//        "Content-Type": "Application/json",
-//        "Accept" : "application/json",
-//        "Authorization": "Basic QU1TQVBJQURNSU46QU1TQVBJUEBTU1dPUkQ="
-//    ]
-    
-    
-    
-//    func saveData(urlApi: String, article: Article, data: Data) {
-//
-//        Alamofire.upload(multipartFormData: { (multipart) in
-//            multipart.append(data, withName: "FILE", fileName: ".jpg", mimeType: "image/jpeg")
-//        }, to: ShareManager.APIKEY.UPLOAD_IMAGE, method: .post, headers: headers) { encoding in
-//            switch encoding {
-//            case .success(request: let upload, streamingFromDisk: _, streamFileURL: _):
-//                upload.responseJSON(completionHandler: { (response) in
-//                    if let data = try? JSONSerialization.jsonObject(with: response.data!, options: .allowFragments) as! [String:Any] {
-//                        let article: Article = article
-//                        article.image = data["DATA"] as? String
-//
-//                        let parameters: Parameters = [
-//                            "TITLE" : article.title!,
-//                            "DESCRIPTION" : article.description!,
-//                            "IMAGE" : article.image!
-//                            ]
-//                        Alamofire.request(urlApi, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: self.headers).responseJSON { response in
-//                            if response.result.isSuccess {
-//                                print("Saved Success")
-//                            }
-//                        }
-//                    }
-//                })
-//            case .failure(let error):
-//                print("Error: \(error.localizedDescription)")
-//            }
-//        }
-//
-//    }
-    
+    func uploadImage(urlApi: String, image: Data, completion: @escaping (String) -> ()) {
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        
+        var request = URLRequest(url: URL(string: urlApi)!)
+        request.addValue("application/json",                           forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json",                           forHTTPHeaderField: "Accept")
+        request.addValue("Basic QU1TQVBJQURNSU46QU1TQVBJUEBTU1dPUkQ=", forHTTPHeaderField: "Authorization")
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        
+        var formData = Data()
+        
+        let imageData = image
+        let mimeType = "image/jpeg"
+        formData.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
+        formData.append("Content-Disposition: form-data; name=\"FILE\"; filename=\"Image.png\"\r\n".data(using: .utf8)!)
+        formData.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
+        formData.append(imageData)
+        formData.append("\r\n".data(using: .utf8)!)
+        formData.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        request.httpBody = formData
+
+        URLSession.shared.uploadTask(with: request, from: formData) { data, response, error in
+            if error == nil {
+                
+                #if DEBUG
+                    print("Upload Success")
+                #endif
+                
+                if let json = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:Any]{
+                    let imageUrl = json["DATA"] as! String
+                    DispatchQueue.main.async {
+                        completion(imageUrl)
+                    }
+                }
+            }
+        }.resume()
+        
+    }
     
 }

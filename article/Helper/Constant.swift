@@ -14,6 +14,7 @@ struct ShareManager {
     
     struct APIKEY {
         static let REQUEST_ARICLE = "http://api-ams.me/v1/api/articles"
+        static let RESPONSE_ARICLE = "http://api-ams.me/v1/api/articles"
         static let UPLOAD_IMAGE = "http://api-ams.me/v1/api/uploadfile/single"
     }
 }
