@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Alamofire
+import UIKit
 
 class DataAccess {
     static let manager = DataAccess()
@@ -20,9 +20,9 @@ class DataAccess {
 
     private func request(url: URL, method: Methods) -> URLRequest {
         var request = URLRequest(url: url)
-        if Methods.GET.rawValue == "GET" {
+        if Methods.GET.rawValue == method.rawValue {
             request.httpMethod = "GET"
-        } else if Methods.POST.rawValue == "POST" {
+        } else if Methods.POST.rawValue == method.rawValue {
             request.httpMethod = "POST"
         }
         
@@ -55,11 +55,7 @@ class DataAccess {
     func saveData(urlApi: String, article: Article) {
         let articleData = try? JSONEncoder().encode(article)
         
-        var request = URLRequest(url: URL(string: urlApi)!)
-        request.addValue("application/json",                           forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json",                           forHTTPHeaderField: "Accept")
-        request.addValue("Basic QU1TQVBJQURNSU46QU1TQVBJUEBTU1dPUkQ=", forHTTPHeaderField: "Authorization")
-        request.httpMethod = "POST"
+        var request = self.request(url: URL(string: urlApi)!, method: .POST)
         request.httpBody = articleData
         
         #if DEBUG
