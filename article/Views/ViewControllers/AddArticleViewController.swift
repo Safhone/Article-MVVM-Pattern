@@ -12,14 +12,16 @@ import SDWebImage
 
 class AddArticleViewController: UIViewController {
 
-    var articleAddViewModel :ArticleAddViewModel?
+    private var articleListViewModel :ArticleListViewModel?
     
     @IBOutlet weak var uploadImageView: UIImageView!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descTextView: UITextView!
     @IBOutlet weak var barNavigationItem: UINavigationItem!
     
-    let imagePicker = UIImagePickerController()
+    private let imagePicker = UIImagePickerController()
+    
+    private var loadingIndicatorView    = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
     var newsID         : Int?
     var newsTitle      : String?
@@ -30,7 +32,7 @@ class AddArticleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        articleAddViewModel = ArticleAddViewModel()
+        articleListViewModel = ArticleListViewModel()
         
         checkPhotoLibraryPermission()
         imagePicker.delegate = self
@@ -65,22 +67,33 @@ class AddArticleViewController: UIViewController {
     }
 
     @IBAction func saveArticle(_ sender: Any) {
+        
+        let x = self.view.frame.width / 2
+        let y = self.view.frame.height / 2
+        
+        loadingIndicatorView.center           = CGPoint(x: x, y: y)
+        loadingIndicatorView.hidesWhenStopped = true
+        view.addSubview(loadingIndicatorView)
+        loadingIndicatorView.startAnimating()
+        
         let image = UIImageJPEGRepresentation(self.uploadImageView.image!, 1)
         
         if isSave! {
-            print("is save")
-            articleAddViewModel?.uploadArticle(image: image!) {
-                self.articleAddViewModel?.saveArticle(articleViewModel: ArticleViewModel(id: 0, title: self.titleTextField.text!, description: self.descTextView.text, created_date: "", image: (self.articleAddViewModel?.imageName)!))
+            articleListViewModel?.uploadArticle(image: image!) {
+                self.articleListViewModel?.saveArticle(articleViewModel: ArticleViewModel(id: 0, title: self.titleTextField.text!, description: self.descTextView.text, created_date: "", image: (self.articleListViewModel?.imageName)!))
+                NotificationCenter.default.post(name: NSNotification.Name("reloadData"), object: nil, userInfo: nil)
+                self.navigationController?.popViewController(animated: true)
+                self.loadingIndicatorView.stopAnimating()
             }
         } else {
-            print("is update")
-            articleAddViewModel?.uploadArticle(image: image!) {
-                self.articleAddViewModel?.updateArticle(articleViewModel: ArticleViewModel(id: 0, title: self.titleTextField.text!, description: self.descTextView.text, created_date: "", image: (self.articleAddViewModel?.imageName)!), id: self.newsID!)
+            articleListViewModel?.uploadArticle(image: image!) {
+                self.articleListViewModel?.updateArticle(articleViewModel: ArticleViewModel(id: 0, title: self.titleTextField.text!, description: self.descTextView.text, created_date: "", image: (self.articleListViewModel?.imageName)!), id: self.newsID!)
+                NotificationCenter.default.post(name: NSNotification.Name("reloadData"), object: nil, userInfo: nil)
+                self.navigationController?.popViewController(animated: true)
+                self.loadingIndicatorView.stopAnimating()
             }
-            
         }
         
-        navigationController?.popViewController(animated: true)
     }
     
 }

@@ -14,6 +14,7 @@ typealias completionHandler = () -> ()
 
 class ArticleListViewModel {
     
+    private (set) var imageName: String = ""
     private (set) var articleViewModel: [ArticleViewModel] = [ArticleViewModel]()
     
     func getArticle(atPage: Int, withLimitation: Int, completion: @escaping completionHandler) {
@@ -22,16 +23,6 @@ class ArticleListViewModel {
             completion()
         }
     }
-    
-    func deleteArticle(id: Int) {
-        DataAccess.manager.deleteData(urlApi: ShareManager.APIKEY.ARTICLE, id: id)
-    }
-    
-}
-
-class ArticleAddViewModel {
-    
-    private (set) var imageName: String = ""
     
     func saveArticle(articleViewModel: ArticleViewModel) {
         DataAccess.manager.saveData(urlApi: ShareManager.APIKEY.ARTICLE, object: Article(articleViewModel: articleViewModel))
@@ -46,6 +37,10 @@ class ArticleAddViewModel {
             self.imageName = imageName
             completion()
         }
+    }
+    
+    func deleteArticle(id: Int) {
+        DataAccess.manager.deleteData(urlApi: ShareManager.APIKEY.ARTICLE, id: id)
     }
     
 }

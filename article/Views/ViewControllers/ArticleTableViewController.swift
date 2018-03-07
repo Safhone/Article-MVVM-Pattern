@@ -54,9 +54,16 @@ class ArticleTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.title = "Articles"
+        self.title = "News"
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView(_:)), name: NSNotification.Name("reloadData"), object: nil)
     }
 
+    @objc func reloadTableView(_ notification: Notification) {
+        fetchData(atPage: 1, withLimitation: 15)
+        self.increasePage = 1
+    }
+    
     @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
         fetchData(atPage: 1, withLimitation: 15)
         self.increasePage = 1
@@ -173,6 +180,11 @@ class ArticleTableViewController: UITableViewController {
         } else if !decelerate {
             newFetchBool = 0
         }
+        
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
         
     }
     
