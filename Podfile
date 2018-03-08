@@ -7,4 +7,5 @@ target 'article' do
 
   # Pods for article
   pod 'SDWebImage'
+  pod 'IQKeyboardManagerSwift'
 end

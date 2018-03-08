@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import SDWebImage
+import IQKeyboardManagerSwift
 
 class AddArticleViewController: UIViewController {
 
@@ -55,6 +56,11 @@ class AddArticleViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        IQKeyboardManager.sharedManager().enable                     = true
+        IQKeyboardManager.sharedManager().enableAutoToolbar          = false
+        IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = true
+        
         if isUpdate {
             self.navigationController?.navigationBar.topItem?.title = "Update"
             self.barNavigationItem.title = "Update"
@@ -65,6 +71,13 @@ class AddArticleViewController: UIViewController {
             self.barNavigationItem.title = "Add"
             isSave = true
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        IQKeyboardManager.sharedManager().enable                     = false
+        IQKeyboardManager.sharedManager().enableAutoToolbar          = true
+        IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = false
     }
 
     @IBAction func saveArticle(_ sender: Any) {
