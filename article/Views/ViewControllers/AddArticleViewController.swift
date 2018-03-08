@@ -48,7 +48,7 @@ class AddArticleViewController: UIViewController {
             titleTextField.text = newsTitle!
             descTextView.text   = newsDescription!
             if let imgURL = URL(string: newsImage!) {
-                uploadImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "no-image"))
+                uploadImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "sorry-image-not-available"))
             }
         }
         

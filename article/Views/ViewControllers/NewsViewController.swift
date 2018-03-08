@@ -13,7 +13,7 @@ class NewsViewController: UIViewController {
 
     @IBOutlet weak var articleImageView : UIImageView!
     @IBOutlet weak var titleLabel       : UILabel!
-    @IBOutlet weak var descTextView     : UITextView!
+    @IBOutlet weak var descLabel        : UILabel!
     @IBOutlet weak var dateLabel        : UILabel!
     
     var newsTitle       : String?
@@ -28,19 +28,13 @@ class NewsViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         if let imgURL = URL(string: newsImage!) {
-            articleImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "no-image"))
+            articleImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "sorry-image-not-available"))
         }
         
         titleLabel.text     = newsTitle
-        descTextView.text   = newsDescription
+        descLabel.text      = newsDescription
         dateLabel.text      = newsDate
         
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        descTextView.setContentOffset(CGPoint.zero, animated: false)
-        
-    }
-
 }
