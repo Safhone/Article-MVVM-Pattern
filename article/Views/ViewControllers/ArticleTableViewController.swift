@@ -12,7 +12,6 @@ import SDWebImage
 class ArticleTableViewController: UITableViewController {
 
     private var articleListViewModel: ArticleListViewModel?
-    private var articleViewModel    : [ArticleViewModel]?
     
     private let paginationIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     private var loadingIndicatorView    = UIActivityIndicatorView(activityIndicatorStyle: .gray)
@@ -72,13 +71,6 @@ class ArticleTableViewController: UITableViewController {
     
     private func fetchData(atPage: Int, withLimitation: Int) {
         self.articleListViewModel?.getArticle(atPage: atPage, withLimitation: withLimitation) {
-            if atPage != 1 {
-                self.articleViewModel? += (self.articleListViewModel?.articleViewModel)!
-            } else {
-                self.articleViewModel = []
-                self.articleViewModel = self.articleListViewModel?.articleViewModel
-            }
-            
             self.loadingIndicatorView.stopAnimating()
             self.paginationIndicatorView.stopAnimating()
             self.refreshControl?.endRefreshing()
@@ -92,41 +84,54 @@ class ArticleTableViewController: UITableViewController {
         
     }
     
+    private func getArticleViewModelAt(index: Int) -> ArticleViewModel {
+        return (articleListViewModel?.articleAt(index: index))!
+        
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if articleViewModel != nil {
-            if (articleViewModel?.count)! > 0 {
+        if self.articleListViewModel?.articleViewModel != nil {
+            if (articleListViewModel?.articleViewModel.count)! > 0 {
                 self.tableView.separatorStyle = .singleLine
             } else {
                 self.tableView.separatorStyle = .none
-                return (articleViewModel?.count)!
+                return (articleListViewModel?.articleViewModel.count)!
             }
-            return (articleViewModel?.count)!
+            return (articleListViewModel?.articleViewModel.count)!
         }
+        
         return 0
+
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ArticleTableViewCell
-        cell.configureCell(articleViewModel: articleViewModel![indexPath.row])
+        
+        DispatchQueue.main.async {
+            cell.configureCell(articleViewModel: self.getArticleViewModelAt(index: indexPath.row))
+        }
         
         return cell
+        
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         newFetchBool = 0
+        
     }
     
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         newFetchBool += 1
+        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newsStoryBoard = self.storyboard?.instantiateViewController(withIdentifier: "newsVC") as! NewsViewController
         
-        newsStoryBoard.newsImage       = self.articleViewModel![indexPath.row].image
-        newsStoryBoard.newsTitle       = self.articleViewModel![indexPath.row].title
-        newsStoryBoard.newsDescription = self.articleViewModel![indexPath.row].description
-        newsStoryBoard.newsDate        = self.articleViewModel![indexPath.row].created_date
+        newsStoryBoard.newsImage       = self.getArticleViewModelAt(index: indexPath.row).image
+        newsStoryBoard.newsTitle       = self.getArticleViewModelAt(index: indexPath.row).title
+        newsStoryBoard.newsDescription = self.getArticleViewModelAt(index: indexPath.row).description
+        newsStoryBoard.newsDate        = self.getArticleViewModelAt(index: indexPath.row).created_date
         
         self.navigationController?.pushViewController(newsStoryBoard, animated: true)
         
@@ -137,21 +142,21 @@ class ArticleTableViewController: UITableViewController {
             let alert = UIAlertController(title: "Are you sure to delete?", message: "", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (action) in
                 DispatchQueue.main.async {
-                    self.articleListViewModel?.deleteArticle(id: self.articleViewModel![indexPath.row].id!)
-                    self.articleViewModel?.remove(at: indexPath.row)
+                    self.articleListViewModel?.deleteArticle(id: self.getArticleViewModelAt(index: indexPath.row).id!)
+                    self.articleListViewModel?.articleRemoveAt(index: indexPath.row)
                     self.tableView.reloadData()
                 }
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
-        
+
         let edit = UITableViewRowAction(style: .normal, title: "Edit") { (action, index) in
             if let addViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addStoryBoardID") as? AddArticleViewController {
-                addViewController.newsID = self.articleViewModel![indexPath.row].id!
-                addViewController.newsTitle = self.articleViewModel![indexPath.row].title?.trimmingCharacters(in: .whitespaces) == "" || self.articleViewModel![indexPath.row].title?.trimmingCharacters(in: .whitespaces) == nil ? "Untitle" : self.articleViewModel![indexPath.row].title!
-                addViewController.newsDescription = self.articleViewModel![indexPath.row].description!
-                addViewController.newsImage = self.articleViewModel![indexPath.row].image
+                addViewController.newsID = self.getArticleViewModelAt(index: indexPath.row).id!
+                addViewController.newsTitle = self.getArticleViewModelAt(index: indexPath.row).title?.trimmingCharacters(in: .whitespaces) == "" || self.getArticleViewModelAt(index: indexPath.row).title?.trimmingCharacters(in: .whitespaces) == nil ? "Untitle" : self.getArticleViewModelAt(index: indexPath.row).title!
+                addViewController.newsDescription = self.getArticleViewModelAt(index: indexPath.row).description!
+                addViewController.newsImage = self.getArticleViewModelAt(index: indexPath.row).image
                 addViewController.isUpdate = true
                 if let navigator = self.navigationController {
                     navigator.pushViewController(addViewController, animated: true)
@@ -166,7 +171,7 @@ class ArticleTableViewController: UITableViewController {
         let bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height
         
         if (bottomEdge >= scrollView.contentSize.height) {
-            if decelerate && newFetchBool >= 1 && scrollView.contentOffset.y >= self.view.frame.height && articleListViewModel?.articleViewModel.count != 0 {
+            if decelerate && newFetchBool >= 1 && scrollView.contentOffset.y >= self.view.frame.height {
                 self.increasePage += 1
                 self.tableView.layoutIfNeeded()
                 self.tableView.tableFooterView           = paginationIndicatorView

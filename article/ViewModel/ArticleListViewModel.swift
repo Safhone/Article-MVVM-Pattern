@@ -14,12 +14,18 @@ typealias completionHandler = () -> ()
 
 class ArticleListViewModel {
     
-    private (set) var imageName: String = ""
-    private (set) var articleViewModel: [ArticleViewModel] = [ArticleViewModel]()
-    
+    private(set) var imageName: String = ""
+    private(set) var articleViewModel: [ArticleViewModel] = [ArticleViewModel]()
+
     func getArticle(atPage: Int, withLimitation: Int, completion: @escaping completionHandler) {
         DataAccess.manager.fetchData(urlApi: ShareManager.APIKEY.ARTICLE, atPage: atPage, withLimitation: withLimitation, type: Article.self) { articles in
-            self.articleViewModel = articles.map(ArticleViewModel.init)
+            if atPage != 1 {
+                let articles = articles.map(ArticleViewModel.init)
+                self.articleViewModel = self.articleViewModel + articles
+            } else {
+                self.articleViewModel = []
+                self.articleViewModel = articles.map(ArticleViewModel.init)
+            }
             completion()
         }
     }
@@ -41,6 +47,14 @@ class ArticleListViewModel {
     
     func deleteArticle(id: Int) {
         DataAccess.manager.deleteData(urlApi: ShareManager.APIKEY.ARTICLE, id: id)
+    }
+    
+    func articleAt(index :Int) -> ArticleViewModel {
+        return self.articleViewModel[index]
+    }
+    
+    func articleRemoveAt(index: Int) {
+        self.articleViewModel.remove(at: index)
     }
     
 }
