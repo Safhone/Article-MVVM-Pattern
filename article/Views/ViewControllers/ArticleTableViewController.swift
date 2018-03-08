@@ -9,6 +9,7 @@
 import UIKit
 import SDWebImage
 
+
 class ArticleTableViewController: UITableViewController {
 
     private var articleListViewModel: ArticleListViewModel?
@@ -59,7 +60,7 @@ class ArticleTableViewController: UITableViewController {
         
     }
 
-    @objc func reloadTableView(_ notification: Notification) {
+    @objc private func reloadTableView(_ notification: Notification) {
         fetchData(atPage: 1, withLimitation: 15)
         self.increasePage = 1
         
@@ -164,7 +165,9 @@ class ArticleTableViewController: UITableViewController {
                 self.navigationController?.pushViewController(addViewController, animated: true)
             }
         }
+        
         return [delete, edit]
+        
     }
     
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
