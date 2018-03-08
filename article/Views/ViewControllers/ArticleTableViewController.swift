@@ -154,7 +154,7 @@ class ArticleTableViewController: UITableViewController {
         }
 
         let edit = UITableViewRowAction(style: .normal, title: "Edit") { (action, index) in
-            if let addViewController = self.storyboard?.instantiateViewController(withIdentifier: "newsVC") as? AddArticleViewController {
+            if let addViewController = self.storyboard?.instantiateViewController(withIdentifier: "addVC") as? AddArticleViewController {
                 addViewController.newsID            = self.getArticleViewModelAt(index: indexPath.row).id!
                 addViewController.newsTitle         = self.getArticleViewModelAt(index: indexPath.row).title!
                 addViewController.newsDescription   = self.getArticleViewModelAt(index: indexPath.row).description!

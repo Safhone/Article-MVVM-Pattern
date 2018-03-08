@@ -132,10 +132,10 @@ class CustomTextView: UITextView, UITextViewDelegate {
     func configurePlaceholderLabel() {
         self.delegate = self
         
-        _placeholderLabel = UILabel()
-        _placeholderLabel.font = font
-        _placeholderLabel.textColor = _placeholderColor
-        _placeholderLabel.text = placeholder
+        _placeholderLabel               = UILabel()
+        _placeholderLabel.font          = font
+        _placeholderLabel.textColor     = _placeholderColor
+        _placeholderLabel.text          = placeholder
         _placeholderLabel.numberOfLines = 0
         _placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
         
