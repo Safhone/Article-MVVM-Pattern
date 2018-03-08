@@ -10,9 +10,9 @@ import UIKit
 
 class ArticleTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var articleImageView: UIImageView!
-    @IBOutlet weak var articleTitleLabel: UILabel!
-    @IBOutlet weak var articleDateLabel: UILabel!
+    @IBOutlet private weak var articleImageView : UIImageView!
+    @IBOutlet private weak var articleTitleLabel: UILabel!
+    @IBOutlet private weak var articleDateLabel : UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,8 +23,8 @@ class ArticleTableViewCell: UITableViewCell {
     }
     
     func configureCell(articleViewModel: ArticleViewModel) {
-        articleTitleLabel.text = articleViewModel.title
-        articleDateLabel.text = articleViewModel.created_date
+        articleTitleLabel.text  = articleViewModel.title
+        articleDateLabel.text   = articleViewModel.created_date
         
         if let imgURL = URL(string: articleViewModel.image!) {
             articleImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "no-image"))

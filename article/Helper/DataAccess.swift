@@ -10,6 +10,7 @@ import Foundation
 
 
 class DataAccess {
+    
     static let manager = DataAccess()
     private init() { }
     
@@ -18,6 +19,7 @@ class DataAccess {
         case POST   = "POST"
         case DELETE = "DELETE"
         case PUT    = "PUT"
+        
     }
 
     private func request(url: URL, method: Methods, body: Data?) -> URLRequest {
@@ -26,21 +28,25 @@ class DataAccess {
         switch method.rawValue {
         case Methods.GET.rawValue:
             request.httpMethod = method.rawValue
+            
         case Methods.POST.rawValue:
             request.httpMethod = method.rawValue
             request.httpBody   = body
+            
         case Methods.DELETE.rawValue:
             request.httpMethod = method.rawValue
+            
         case Methods.PUT.rawValue:
             request.httpMethod = method.rawValue
             request.httpBody   = body
+            
         default:
             break
         }
         
-        request.addValue("application/json",                           forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json",                           forHTTPHeaderField: "Accept")
-        request.addValue("Basic QU1TQVBJQURNSU46QU1TQVBJUEBTU1dPUkQ=", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json",                            forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json",                            forHTTPHeaderField: "Accept")
+        request.addValue("Basic QU1TQVBJQURNSU46QU1TQVBJUEBTU1dPUkQ=",  forHTTPHeaderField: "Authorization")
         
         return request
         
@@ -49,11 +55,12 @@ class DataAccess {
     func fetchData<T: Codable>(urlApi: String, atPage: Int, withLimitation: Int, type: T.Type, completion: @escaping ([T]) -> ()) {
     
         let url = URL(string: "\(urlApi)?page=\(atPage)&limit=\(withLimitation)")!
+        
         URLSession.shared.dataTask(with: request(url: url, method: .GET, body: nil)) { data, _, _ in
             if let data = data {
                 do {
-                    let response = try JSONDecoder().decode(Response<T>.self, from: data)
-                    let data = response.DATA
+                    let response    = try JSONDecoder().decode(Response<T>.self, from: data)
+                    let data        = response.DATA
                     
                     DispatchQueue.main.async {
                         completion(data)
@@ -63,10 +70,13 @@ class DataAccess {
                 }
             }
         }.resume()
+        
     }
     
     func deleteData(urlApi: String, id: Int) {
+        
         let url = URL(string: "\(urlApi)/\(id)")!
+        
         URLSession.shared.dataTask(with: request(url: url, method: .DELETE, body: nil)) { data, _, error in
             guard let _ = data, error == nil else {
                 if let error = error as NSError? {
@@ -75,10 +85,12 @@ class DataAccess {
                 return
             }
         }.resume()
+        
     }
     
     func saveData<T: Codable>(urlApi: String, object: T) {
-        let data = try? JSONEncoder().encode(object)
+        
+        let data    = try? JSONEncoder().encode(object)
         var request = self.request(url: URL(string: urlApi)!, method: .POST, body: data)
         
         #if DEBUG
@@ -97,7 +109,8 @@ class DataAccess {
     }
     
     func updateArticle<T: Codable>(urlApi: String, object: T, id: Int) {
-        let data = try? JSONEncoder().encode(object)
+        
+        let data    = try? JSONEncoder().encode(object)
         let request = self.request(url: URL(string: "\(urlApi)/\(id)")!, method: .PUT, body: data)
         
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -108,20 +121,21 @@ class DataAccess {
                 return
             }
         }.resume()
+        
     }
     
     func uploadImage(urlApi: String, image: Data, completion: @escaping (String) -> ()) {
         
         struct Upload: Codable {
-            var CODE: String?
-            var MESSAGE: String?
-            var DATA: String?
+            var CODE    : String?
+            var MESSAGE : String?
+            var DATA    : String?
         }
         
-        let imageData = image
-        let mimeType = "image/jpeg"
-        let boundary = "Boundary-\(UUID().uuidString)"
-        var formData = Data()
+        let imageData   = image
+        let mimeType    = "image/jpeg"
+        let boundary    = "Boundary-\(UUID().uuidString)"
+        var formData    = Data()
         
         formData.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
         formData.append("Content-Disposition: form-data; name=\"FILE\"; filename=\"Image.png\"\r\n".data(using: .utf8)!)
@@ -141,8 +155,9 @@ class DataAccess {
                 #endif
                 
                 do {
-                    let response = try JSONDecoder().decode(Upload.self, from: data!)
-                    let data = response.DATA
+                    let response    = try JSONDecoder().decode(Upload.self, from: data!)
+                    let data        = response.DATA
+                    
                     DispatchQueue.main.async {
                         completion(data!)
                     }

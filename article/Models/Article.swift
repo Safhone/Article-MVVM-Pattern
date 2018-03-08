@@ -18,18 +18,19 @@ class Article: Codable {
     var image       : String?
     
     private enum CodingKeys: String, CodingKey {
-        case id           = "ID"
-        case title        = "TITLE"
-        case description  = "DESCRIPTION"
-        case created_date = "CREATED_DATE"
-        case image        = "IMAGE"
+        case id             = "ID"
+        case title          = "TITLE"
+        case description    = "DESCRIPTION"
+        case created_date   = "CREATED_DATE"
+        case image          = "IMAGE"
     }
     
     init(articleViewModel: ArticleViewModel) {
-        self.title        = articleViewModel.title
-        self.description  = articleViewModel.description
-        self.created_date = articleViewModel.created_date
-        self.image        = articleViewModel.image
+        self.id             = articleViewModel.id
+        self.title          = articleViewModel.title
+        self.description    = articleViewModel.description
+        self.created_date   = articleViewModel.created_date
+        self.image          = articleViewModel.image
     }
 
 }

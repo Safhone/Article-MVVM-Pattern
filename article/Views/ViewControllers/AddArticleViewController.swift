@@ -14,19 +14,20 @@ class AddArticleViewController: UIViewController {
 
     private var articleListViewModel :ArticleListViewModel?
     
-    @IBOutlet weak var uploadImageView: UIImageView!
-    @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var descTextView: UITextView!
+    @IBOutlet weak var uploadImageView  : UIImageView!
+    @IBOutlet weak var titleTextField   : UITextField!
+    @IBOutlet weak var descTextView     : UITextView!
     @IBOutlet weak var barNavigationItem: UINavigationItem!
     
     private let imagePicker = UIImagePickerController()
     
-    private var loadingIndicatorView    = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    private var loadingIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
     var newsID         : Int?
     var newsTitle      : String?
     var newsImage      : String?
     var newsDescription: String?
+    
     var isUpdate: Bool = false
     var isSave: Bool?
     
@@ -44,7 +45,7 @@ class AddArticleViewController: UIViewController {
         
         if isUpdate {
             titleTextField.text = newsTitle!
-            descTextView.text = newsDescription!
+            descTextView.text   = newsDescription!
             if let imgURL = URL(string: newsImage!) {
                 uploadImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "no-image"))
             }
@@ -79,18 +80,22 @@ class AddArticleViewController: UIViewController {
         let image = UIImageJPEGRepresentation(self.uploadImageView.image!, 1)
         
         if isSave! {
-            articleListViewModel?.uploadArticle(image: image!) {
+            articleListViewModel?.uploadArticleImage(image: image!) {
                 self.articleListViewModel?.saveArticle(articleViewModel: ArticleViewModel(id: 0, title: self.titleTextField.text!, description: self.descTextView.text, created_date: "", image: (self.articleListViewModel?.imageName)!))
+                
                 NotificationCenter.default.post(name: NSNotification.Name("reloadData"), object: nil, userInfo: nil)
                 self.navigationController?.popViewController(animated: true)
                 self.loadingIndicatorView.stopAnimating()
+                
             }
         } else {
-            articleListViewModel?.uploadArticle(image: image!) {
+            articleListViewModel?.uploadArticleImage(image: image!) {
                 self.articleListViewModel?.updateArticle(articleViewModel: ArticleViewModel(id: 0, title: self.titleTextField.text!, description: self.descTextView.text, created_date: "", image: (self.articleListViewModel?.imageName)!), id: self.newsID!)
+                
                 NotificationCenter.default.post(name: NSNotification.Name("reloadData"), object: nil, userInfo: nil)
                 self.navigationController?.popViewController(animated: true)
                 self.loadingIndicatorView.stopAnimating()
+                
             }
         }
         
@@ -100,8 +105,9 @@ class AddArticleViewController: UIViewController {
 
 extension AddArticleViewController: UIGestureRecognizerDelegate {
     @objc func imageTapped(tap: UITapGestureRecognizer) {
-        self.imagePicker.allowsEditing = false
-        self.imagePicker.sourceType = .photoLibrary
+        self.imagePicker.allowsEditing  = false
+        self.imagePicker.sourceType     = .photoLibrary
+        
         present(self.imagePicker, animated: true, completion: nil)
     }
 }

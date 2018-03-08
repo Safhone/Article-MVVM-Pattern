@@ -10,18 +10,18 @@ import Foundation
 import UIKit
 
 
-typealias completionHandler = () -> ()
+internal typealias completionHandler = () -> ()
 
 class ArticleListViewModel {
     
-    private(set) var imageName: String = ""
-    private(set) var articleViewModel: [ArticleViewModel] = [ArticleViewModel]()
+    private(set) var imageName: String                      = ""
+    private(set) var articleViewModel: [ArticleViewModel]   = [ArticleViewModel]()
 
     func getArticle(atPage: Int, withLimitation: Int, completion: @escaping completionHandler) {
         DataAccess.manager.fetchData(urlApi: ShareManager.APIKEY.ARTICLE, atPage: atPage, withLimitation: withLimitation, type: Article.self) { articles in
             if atPage != 1 {
                 let articles = articles.map(ArticleViewModel.init)
-                self.articleViewModel = self.articleViewModel + articles
+                self.articleViewModel += articles
             } else {
                 self.articleViewModel = []
                 self.articleViewModel = articles.map(ArticleViewModel.init)
@@ -38,7 +38,7 @@ class ArticleListViewModel {
         DataAccess.manager.updateArticle(urlApi: ShareManager.APIKEY.ARTICLE, object: Article(articleViewModel: articleViewModel), id: id)
     }
     
-    func uploadArticle(image: Data, completion: @escaping completionHandler) {
+    func uploadArticleImage(image: Data, completion: @escaping completionHandler) {
         DataAccess.manager.uploadImage(urlApi: ShareManager.APIKEY.UPLOAD_IMAGE, image: image) { imageName in
             self.imageName = imageName
             completion()
@@ -68,19 +68,19 @@ class ArticleViewModel {
     var image       : String?
     
     init(id: Int, title: String, description: String, created_date: String, image: String) {
-        self.id           = id
-        self.title        = title
-        self.description  = description
-        self.created_date = created_date
-        self.image        = image
+        self.id             = id
+        self.title          = title
+        self.description    = description
+        self.created_date   = created_date
+        self.image          = image
     }
     
     init(article: Article) {
-        self.id           = article.id
-        self.title        = article.title
-        self.description  = article.description
-        self.created_date = article.created_date?.formatDate(getTime: true)
-        self.image        = article.image
+        self.id             = article.id
+        self.title          = article.title!.trimmingCharacters(in: .whitespaces)
+        self.description    = article.description
+        self.created_date   = article.created_date?.formatDate(getTime: true)
+        self.image          = article.image
     }
 
 }

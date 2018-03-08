@@ -10,7 +10,6 @@
 		00789934D2707BB3FC11B6C1 /* Pods_article.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 955EF6DC81FA17B635E73FB1 /* Pods_article.framework */; };
 		39BEE5A9204E4CDA007B37D8 /* DataAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE5A8204E4CDA007B37D8 /* DataAccess.swift */; };
 		39BEE5AB204E4EEA007B37D8 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BEE5AA204E4EEA007B37D8 /* Constant.swift */; };
-		7E0256AC204D48320061069D /* FormatLongDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0256AB204D48320061069D /* FormatLongDate.swift */; };
 		7E2E11F7204CE5BE009926BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E11F6204CE5BE009926BF /* AppDelegate.swift */; };
 		7E2E11F9204CE5BE009926BF /* ArticleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E11F8204CE5BE009926BF /* ArticleTableViewController.swift */; };
 		7E2E11FC204CE5BE009926BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E2E11FA204CE5BE009926BF /* Main.storyboard */; };
@@ -22,13 +21,14 @@
 		7E2E121E204D2056009926BF /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2E121D204D2056009926BF /* NewsViewController.swift */; };
 		7E6CCF66204E3BE6001FBAB8 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E6CCF65204E3BE6001FBAB8 /* Response.swift */; };
 		7E6CCF68204E40C2001FBAB8 /* AddArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E6CCF67204E40C2001FBAB8 /* AddArticleViewController.swift */; };
+		A348993920513DF000B0ED6F /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A348993820513DF000B0ED6F /* Extension.swift */; };
+		A348993B2051416F00B0ED6F /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A348993A2051416F00B0ED6F /* CustomTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		39BEE5A8204E4CDA007B37D8 /* DataAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAccess.swift; sourceTree = "<group>"; };
 		39BEE5AA204E4EEA007B37D8 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		63D8B14336B4D17FD2497A9D /* Pods-article.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-article.release.xcconfig"; path = "Pods/Target Support Files/Pods-article/Pods-article.release.xcconfig"; sourceTree = "<group>"; };
-		7E0256AB204D48320061069D /* FormatLongDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatLongDate.swift; sourceTree = "<group>"; };
 		7E2E11F3204CE5BE009926BF /* article.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = article.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E2E11F6204CE5BE009926BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7E2E11F8204CE5BE009926BF /* ArticleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTableViewController.swift; sourceTree = "<group>"; };
@@ -43,6 +43,8 @@
 		7E6CCF65204E3BE6001FBAB8 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		7E6CCF67204E40C2001FBAB8 /* AddArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArticleViewController.swift; sourceTree = "<group>"; };
 		955EF6DC81FA17B635E73FB1 /* Pods_article.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_article.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A348993820513DF000B0ED6F /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		A348993A2051416F00B0ED6F /* CustomTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 		A688D9B3FB4C9FBE0ED18FF0 /* Pods-article.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-article.debug.xcconfig"; path = "Pods/Target Support Files/Pods-article/Pods-article.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,7 +99,8 @@
 		7E0256AA204D48180061069D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				7E0256AB204D48320061069D /* FormatLongDate.swift */,
+				A348993A2051416F00B0ED6F /* CustomTextView.swift */,
+				A348993820513DF000B0ED6F /* Extension.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -326,13 +329,14 @@
 			files = (
 				7E2E121C204CF0A9009926BF /* ArticleListViewModel.swift in Sources */,
 				7E2E120F204CEA9B009926BF /* Article.swift in Sources */,
+				A348993B2051416F00B0ED6F /* CustomTextView.swift in Sources */,
 				7E6CCF66204E3BE6001FBAB8 /* Response.swift in Sources */,
+				A348993920513DF000B0ED6F /* Extension.swift in Sources */,
 				7E2E11F9204CE5BE009926BF /* ArticleTableViewController.swift in Sources */,
 				7E2E121E204D2056009926BF /* NewsViewController.swift in Sources */,
 				39BEE5A9204E4CDA007B37D8 /* DataAccess.swift in Sources */,
 				7E2E120C204CE9ED009926BF /* ArticleTableViewCell.swift in Sources */,
 				39BEE5AB204E4EEA007B37D8 /* Constant.swift in Sources */,
-				7E0256AC204D48320061069D /* FormatLongDate.swift in Sources */,
 				7E6CCF68204E40C2001FBAB8 /* AddArticleViewController.swift in Sources */,
 				7E2E11F7204CE5BE009926BF /* AppDelegate.swift in Sources */,
 			);

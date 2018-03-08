@@ -11,15 +11,15 @@ import SDWebImage
 
 class NewsViewController: UIViewController {
 
-    @IBOutlet weak var articleImageView: UIImageView!
-    @IBOutlet weak var titleLabel      : UILabel!
-    @IBOutlet weak var descTextView    : UITextView!
-    @IBOutlet weak var dateLabel       : UILabel!
+    @IBOutlet weak var articleImageView : UIImageView!
+    @IBOutlet weak var titleLabel       : UILabel!
+    @IBOutlet weak var descTextView     : UITextView!
+    @IBOutlet weak var dateLabel        : UILabel!
     
-    var newsTitle      : String?
-    var newsImage      : String?
-    var newsDescription: String?
-    var newsDate       : String?
+    var newsTitle       : String?
+    var newsImage       : String?
+    var newsDescription : String?
+    var newsDate        : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +31,9 @@ class NewsViewController: UIViewController {
             articleImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "no-image"))
         }
         
-        titleLabel.text   = newsTitle
-        descTextView.text = newsDescription
-        dateLabel.text    = newsDate
+        titleLabel.text     = newsTitle
+        descTextView.text   = newsDescription
+        dateLabel.text      = newsDate
         
     }
     

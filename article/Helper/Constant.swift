@@ -12,11 +12,12 @@ import Foundation
 struct ShareManager {
     
     static let share = ShareManager()
-    private init(){}
+    private init(){ }
     
     struct APIKEY {
-        static let ARTICLE = "http://api-ams.me/v1/api/articles"
+        static let ARTICLE      = "http://api-ams.me/v1/api/articles"
         static let UPLOAD_IMAGE = "http://api-ams.me/v1/api/uploadfile/single"
+        
     }
     
 }

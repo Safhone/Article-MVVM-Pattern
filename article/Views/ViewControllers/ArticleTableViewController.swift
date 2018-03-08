@@ -26,12 +26,12 @@ class ArticleTableViewController: UITableViewController {
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        tableView.preservesSuperviewLayoutMargins = false
-        tableView.separatorInset                  = UIEdgeInsets.zero
-        tableView.layoutMargins                   = UIEdgeInsets.zero
-        tableView.tableFooterView                 = UIView()
-        tableView.estimatedRowHeight              = 111
-        tableView.rowHeight                       = UITableViewAutomaticDimension
+        tableView.preservesSuperviewLayoutMargins   = false
+        tableView.separatorInset                    = UIEdgeInsets.zero
+        tableView.layoutMargins                     = UIEdgeInsets.zero
+        tableView.tableFooterView                   = UIView()
+        tableView.estimatedRowHeight                = 111
+        tableView.rowHeight                         = UITableViewAutomaticDimension
 
         fetchData(atPage: increasePage, withLimitation: 15)
         
@@ -56,11 +56,13 @@ class ArticleTableViewController: UITableViewController {
         self.title = "News"
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView(_:)), name: NSNotification.Name("reloadData"), object: nil)
+        
     }
 
     @objc func reloadTableView(_ notification: Notification) {
         fetchData(atPage: 1, withLimitation: 15)
         self.increasePage = 1
+        
     }
     
     @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
@@ -128,10 +130,10 @@ class ArticleTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newsStoryBoard = self.storyboard?.instantiateViewController(withIdentifier: "newsVC") as! NewsViewController
         
-        newsStoryBoard.newsImage       = self.getArticleViewModelAt(index: indexPath.row).image
-        newsStoryBoard.newsTitle       = self.getArticleViewModelAt(index: indexPath.row).title
-        newsStoryBoard.newsDescription = self.getArticleViewModelAt(index: indexPath.row).description
-        newsStoryBoard.newsDate        = self.getArticleViewModelAt(index: indexPath.row).created_date
+        newsStoryBoard.newsImage        = self.getArticleViewModelAt(index: indexPath.row).image
+        newsStoryBoard.newsTitle        = self.getArticleViewModelAt(index: indexPath.row).title
+        newsStoryBoard.newsDescription  = self.getArticleViewModelAt(index: indexPath.row).description
+        newsStoryBoard.newsDate         = self.getArticleViewModelAt(index: indexPath.row).created_date
         
         self.navigationController?.pushViewController(newsStoryBoard, animated: true)
         
@@ -152,15 +154,14 @@ class ArticleTableViewController: UITableViewController {
         }
 
         let edit = UITableViewRowAction(style: .normal, title: "Edit") { (action, index) in
-            if let addViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addStoryBoardID") as? AddArticleViewController {
-                addViewController.newsID = self.getArticleViewModelAt(index: indexPath.row).id!
-                addViewController.newsTitle = self.getArticleViewModelAt(index: indexPath.row).title?.trimmingCharacters(in: .whitespaces) == "" || self.getArticleViewModelAt(index: indexPath.row).title?.trimmingCharacters(in: .whitespaces) == nil ? "Untitle" : self.getArticleViewModelAt(index: indexPath.row).title!
-                addViewController.newsDescription = self.getArticleViewModelAt(index: indexPath.row).description!
-                addViewController.newsImage = self.getArticleViewModelAt(index: indexPath.row).image
-                addViewController.isUpdate = true
-                if let navigator = self.navigationController {
-                    navigator.pushViewController(addViewController, animated: true)
-                }
+            if let addViewController = self.storyboard?.instantiateViewController(withIdentifier: "newsVC") as? AddArticleViewController {
+                addViewController.newsID            = self.getArticleViewModelAt(index: indexPath.row).id!
+                addViewController.newsTitle         = self.getArticleViewModelAt(index: indexPath.row).title!
+                addViewController.newsDescription   = self.getArticleViewModelAt(index: indexPath.row).description!
+                addViewController.newsImage         = self.getArticleViewModelAt(index: indexPath.row).image
+                addViewController.isUpdate          = true
+                
+                self.navigationController?.pushViewController(addViewController, animated: true)
             }
         }
         return [delete, edit]
@@ -174,9 +175,9 @@ class ArticleTableViewController: UITableViewController {
             if decelerate && newFetchBool >= 1 && scrollView.contentOffset.y >= self.view.frame.height {
                 self.increasePage += 1
                 self.tableView.layoutIfNeeded()
-                self.tableView.tableFooterView           = paginationIndicatorView
-                self.tableView.tableFooterView?.isHidden = false
-                self.tableView.tableFooterView?.center   = paginationIndicatorView.center
+                self.tableView.tableFooterView              = paginationIndicatorView
+                self.tableView.tableFooterView?.isHidden    = false
+                self.tableView.tableFooterView?.center      = paginationIndicatorView.center
                 self.paginationIndicatorView.startAnimating()
                 fetchData(atPage: increasePage, withLimitation: 15)
                 self.newFetchBool = 0
