@@ -62,13 +62,11 @@ class AddArticleViewController: UIViewController {
         IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = true
         
         if isUpdate {
-            self.navigationController?.navigationBar.topItem?.title = "Update"
-            self.barNavigationItem.title = "Update"
+            self.title = "Update"
             isSave = false
             return
         } else {
-            self.navigationController?.navigationBar.topItem?.title = "Add"
-            self.barNavigationItem.title = "Add"
+            self.title = "Add"
             isSave = true
         }
     }
