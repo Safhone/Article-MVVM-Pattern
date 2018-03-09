@@ -27,7 +27,7 @@ class ArticleTableViewCell: UITableViewCell {
         articleDateLabel.text   = articleViewModel.created_date
         
         if let imgURL = URL(string: articleViewModel.image!) {
-            articleImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "no-image"))
+            articleImageView.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "sorry-image-not-available"))
         }
         
     }

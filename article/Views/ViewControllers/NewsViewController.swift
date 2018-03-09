@@ -15,6 +15,7 @@ class NewsViewController: UIViewController {
     @IBOutlet weak var titleLabel       : UILabel!
     @IBOutlet weak var descLabel        : UILabel!
     @IBOutlet weak var dateLabel        : UILabel!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     var newsTitle       : String?
     var newsImage       : String?
@@ -23,6 +24,8 @@ class NewsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: descLabel.bottomAnchor).isActive = true
         
         self.title = "Article"
         self.navigationController?.navigationBar.prefersLargeTitles = true

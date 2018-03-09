@@ -102,34 +102,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SXQ-vm-Qlx">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SXQ-vm-Qlx">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Auf-de-zi3">
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Auf-de-zi3">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sorry-image-not-available" translatesAutoresizingMaskIntoConstraints="NO" id="ImU-rp-e3j">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="217"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="ImU-rp-e3j" secondAttribute="height" multiplier="375:217" id="G0H-CO-CWX"/>
-                                                    <constraint firstAttribute="width" constant="375" id="UNN-Jd-UV6"/>
-                                                    <constraint firstAttribute="height" constant="217" id="xAh-Dz-R3b"/>
+                                                    <constraint firstAttribute="width" secondItem="ImU-rp-e3j" secondAttribute="height" multiplier="15:8" id="0GZ-WA-069"/>
+                                                    <constraint firstAttribute="height" constant="200" id="HXw-Qj-iM8"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaK-GH-kta">
-                                                <rect key="frame" x="6" y="237" width="363" height="28"/>
+                                                <rect key="frame" x="6" y="220" width="363" height="28"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ywI-Jl-Erh">
-                                                <rect key="frame" x="15" y="285" width="27" height="15"/>
+                                                <rect key="frame" x="15" y="268" width="27" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NzX-mb-fdc">
-                                                <rect key="frame" x="10" y="320" width="355" height="21"/>
+                                                <rect key="frame" x="10" y="303" width="355" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -147,20 +146,18 @@
                                             <constraint firstItem="ywI-Jl-Erh" firstAttribute="leading" secondItem="Auf-de-zi3" secondAttribute="leading" constant="15" id="XWx-1r-5yO"/>
                                             <constraint firstAttribute="trailing" secondItem="ImU-rp-e3j" secondAttribute="trailing" id="bBS-SH-kjy"/>
                                             <constraint firstItem="ywI-Jl-Erh" firstAttribute="top" secondItem="SaK-GH-kta" secondAttribute="bottom" constant="20" id="gfb-jj-Jfs"/>
+                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="NzX-mb-fdc" secondAttribute="bottom" constant="20" id="okW-C7-RR2"/>
                                             <constraint firstItem="NzX-mb-fdc" firstAttribute="top" secondItem="ywI-Jl-Erh" secondAttribute="bottom" constant="20" id="yiE-mb-X84"/>
                                             <constraint firstItem="ImU-rp-e3j" firstAttribute="leading" secondItem="Auf-de-zi3" secondAttribute="leading" id="yjO-lD-Ne2"/>
                                         </constraints>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="Auf-de-zi3" firstAttribute="centerY" secondItem="SXQ-vm-Qlx" secondAttribute="centerY" id="9UQ-21-FIk"/>
-                                    <constraint firstAttribute="bottom" secondItem="Auf-de-zi3" secondAttribute="bottom" id="SJK-uU-bKg"/>
-                                    <constraint firstAttribute="height" constant="603" id="TO8-M3-vM4"/>
-                                    <constraint firstAttribute="trailing" secondItem="Auf-de-zi3" secondAttribute="trailing" id="Wjj-qy-fui"/>
-                                    <constraint firstItem="Auf-de-zi3" firstAttribute="top" secondItem="SXQ-vm-Qlx" secondAttribute="top" id="bEr-FQ-FL6"/>
-                                    <constraint firstAttribute="width" constant="375" id="eBT-Gi-a1T"/>
-                                    <constraint firstItem="Auf-de-zi3" firstAttribute="centerX" secondItem="SXQ-vm-Qlx" secondAttribute="centerX" id="gL1-i3-peB"/>
-                                    <constraint firstItem="Auf-de-zi3" firstAttribute="leading" secondItem="SXQ-vm-Qlx" secondAttribute="leading" id="suZ-Qm-eh4"/>
+                                    <constraint firstItem="Auf-de-zi3" firstAttribute="top" secondItem="SXQ-vm-Qlx" secondAttribute="top" id="VVn-iA-iAu"/>
+                                    <constraint firstAttribute="trailing" secondItem="Auf-de-zi3" secondAttribute="trailing" id="bWq-ww-LcH"/>
+                                    <constraint firstAttribute="bottom" secondItem="Auf-de-zi3" secondAttribute="bottom" id="c4V-AC-R0M"/>
+                                    <constraint firstItem="Auf-de-zi3" firstAttribute="centerX" secondItem="SXQ-vm-Qlx" secondAttribute="centerX" id="fvE-zb-jKA"/>
+                                    <constraint firstItem="Auf-de-zi3" firstAttribute="leading" secondItem="SXQ-vm-Qlx" secondAttribute="leading" id="zu7-e3-oRK"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
@@ -177,6 +174,7 @@
                         <outlet property="articleImageView" destination="ImU-rp-e3j" id="nJG-Cl-HKv"/>
                         <outlet property="dateLabel" destination="ywI-Jl-Erh" id="hlj-Oj-LEY"/>
                         <outlet property="descLabel" destination="NzX-mb-fdc" id="JdJ-Or-EaJ"/>
+                        <outlet property="scrollView" destination="SXQ-vm-Qlx" id="mSL-KY-NN9"/>
                         <outlet property="titleLabel" destination="SaK-GH-kta" id="LLK-dV-cQ7"/>
                     </connections>
                 </viewController>
