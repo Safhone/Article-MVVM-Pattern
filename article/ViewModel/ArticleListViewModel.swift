@@ -78,7 +78,7 @@ class ArticleViewModel {
     init(article: Article) {
         self.id             = article.id
         self.title          = article.title!.trimmingCharacters(in: .whitespaces)
-        self.description    = article.description
+        self.description    = article.description ?? ""
         self.created_date   = article.created_date?.formatDate(getTime: true)
         self.image          = article.image
     }
