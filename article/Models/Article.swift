@@ -9,7 +9,7 @@
 import Foundation
 
 
-class Article: Codable {
+struct Article: Codable {
     
     var id          : Int?
     var title       : String?

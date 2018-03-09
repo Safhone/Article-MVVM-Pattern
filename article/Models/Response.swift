@@ -8,7 +8,8 @@
 
 import Foundation
 
-class Response<T: Codable>: Codable {
+
+struct Response<T: Codable>: Codable {
     
     var CODE    : String?
     var MESSAGE : String?
